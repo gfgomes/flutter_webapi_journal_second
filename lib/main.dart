@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/journal.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 import 'screens/home_screen/home_screen.dart';
+import 'screens/login_screen/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         ),
         //textTheme: GoogleFonts.bitterTextTheme(),
       ),
-      initialRoute: "home",
+      initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
+        "login": (context) => const LoginScreen(),
       },
       //Responsavel por lidar com as rotas e extrair os argumentos para passar nos construtuores das respectivas telas
       onGenerateRoute: (routeSettings) {
