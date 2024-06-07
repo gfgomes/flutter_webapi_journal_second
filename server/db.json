@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "email": "gabriel.fgomes@gmail.com",
+      "password": "$2a$10$O9nqQyOPBGlw4jQBDDAWKur9Nd.Ci7DijsbcmC9Hf6Yh8PawOLa7q",
+      "id": 1
+    }
+  ],
   "learnhttp": {},
   "journals": [
     {
