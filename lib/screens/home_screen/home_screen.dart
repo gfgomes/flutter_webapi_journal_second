@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         controller: _listScrollController,
-        children: generateListJournalCards(
+        children: generateListJournalCards(// Cria uma lista de Cards vazios e insere na home_screen com o widget JournalCard
           windowPage: windowPage,
           currentDay: currentDay,
           database: database,
@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+// Atualiza a base de dados e a lista na home_screen
   void refresh() async {
     List<Journal> listJournal = await _journalService.getAll();
 

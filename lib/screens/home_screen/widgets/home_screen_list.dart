@@ -10,6 +10,7 @@ List<JournalCard> generateListJournalCards(
   List<JournalCard> list = List.generate(
     windowPage + 1,
     (index) => JournalCard(
+      // Cria um card vazio e insere na lista, cada card contém um dia de journal já com o evento de click no card para chamar a tela de edição de dentro do JournalCard
       refreshFunction: refreshFunction,
       showedDate: currentDay.subtract(Duration(
         days: (windowPage) - index,
