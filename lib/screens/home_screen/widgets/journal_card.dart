@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_second_course/enums/enums.dart';
+import 'package:flutter_webapi_second_course/services/journal_service.dart';
 import 'package:uuid/uuid.dart';
 import '../../../helpers/weekday.dart';
 import '../../../models/journal.dart';
@@ -88,6 +89,11 @@ class JournalCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    removeJournal(context);
+                  },
+                  icon: const Icon(Icons.delete))
             ],
           ),
         ),
@@ -115,6 +121,7 @@ class JournalCard extends StatelessWidget {
   }
 
 // Resposanvel por chamar a tela de adicionar ou editar de dentro do widget home_screen.dart e manipular o retorno
+// Não seria necessáro passar o journal como parametro, pois ele é passado por parametro na construção do widget JournalCard, mas só por clareza e simplicidade está sendo deixado claro o que é o journal que é passado como parametro na construção do widget JournalCard
   callAddJournalScreen(BuildContext context, {Journal? journal}) {
     print("callAddJournalScreen $journal");
 
@@ -172,5 +179,23 @@ class JournalCard extends StatelessWidget {
       }
       refreshFunction();
     });
+  }
+
+// Não está sendo passado journal por parametro, pois ele é passado por parametro na construção do widget JournalCard
+  removeJournal(BuildContext context) {
+    JournalService service = JournalService();
+
+    if (journal != null) {
+      service.delete(journal!.id).then((value) {
+        if (value == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Registro excluído com sucesso."),
+            ),
+          );
+          refreshFunction();
+        }
+      });
+    }
   }
 }

@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "home": (context) => const HomeScreen(),
       },
+      //Responsavel por lidar com as rotas e extrair os argumentos para passar nos construtuores das respectivas telas
       onGenerateRoute: (routeSettings) {
         if (routeSettings.name == "add-journal") {
           Map<String, dynamic> map =
