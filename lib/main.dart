@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webapi_second_course/helpers/uri_helper.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'models/journal.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
@@ -7,6 +8,15 @@ import 'screens/login_screen/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
+
+  // print(UriHelper.getBaseURL());
+  // print(UriHelper.getResourceURL(resource: ""));
+  // print(UriHelper.getUri(""));
+  // print(UriHelper.getUri("login"));
+  // print(UriHelper.getUri("home"));
+  // print(UriHelper.getUriWithId("edit", "1"));
+  // print(UriHelper.getUriWithParams("home", {"page": "1"}));
+  // print(UriHelper.getUriWithIdAndParams("edit", "1", {"page": "1"}));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +42,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
-        "login": (context) => const LoginScreen(),
+        "login": (context) => LoginScreen(),
       },
       //Responsavel por lidar com as rotas e extrair os argumentos para passar nos construtuores das respectivas telas
       onGenerateRoute: (routeSettings) {
