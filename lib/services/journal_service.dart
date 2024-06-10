@@ -20,8 +20,20 @@ class JournalService {
     return "$url$resource";
   }
 
+  String getBaseURL() {
+    return "$url";
+  }
+
   Uri getUri() {
     return Uri.parse(getURL());
+  }
+
+  Uri getUriWithParams(String url) {
+    return Uri.parse(url);
+  }
+
+  Uri getBaseUri() {
+    return Uri.parse(getBaseURL());
   }
 
   Future<bool> register(Journal journal) async {
@@ -56,8 +68,15 @@ class JournalService {
     return false;
   }
 
-  Future<List<Journal>> getAll() async {
-    http.Response response = await client.get(getUri());
+  Future<List<Journal>> getAll(
+      {required String id, required String token}) async {
+    print("Get all uri: ${url}users/${id}/journals");
+
+    http.Response response = await client.get(
+        Uri.parse(
+          "${url}users/${id}/journals",
+        ),
+        headers: {"Authorization": "Bearer $token"});
 
     if (response.statusCode != 200) {
       //TODO: Criar uma exceção personalizada
