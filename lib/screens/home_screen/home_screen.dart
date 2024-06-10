@@ -52,7 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: ListView(
+        padding: EdgeInsets.zero,
         children: [
+          // const DrawerHeader(
+          //   decoration: BoxDecoration(
+          //     color: Colors.blue,
+          //   ),
+          //   child: Text('Drawer Header'),
+          // ),
           ListTile(
             onTap: () {
               logout();

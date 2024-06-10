@@ -4,8 +4,6 @@ import 'package:flutter_webapi_second_course/helpers/uri_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/journal.dart';
 import 'http_interceptors.dart';
 
 class AuthService {
@@ -48,6 +46,9 @@ class AuthService {
         body: {'email': email, 'password': password});
 
     if (response.statusCode != 201) {
+
+      
+
       throw HttpException(response.body);
     }
 
