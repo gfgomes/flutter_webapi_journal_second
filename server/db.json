@@ -9,6 +9,11 @@
       "email": "teste1@teste.com",
       "password": "$2a$10$4BX91W98SSGBaReS.WJ7jObTbdKD.2HIw066kf2OJMG55vS1nVBB2",
       "id": 2
+    },
+    {
+      "email": "teste2@teste.com",
+      "password": "$2a$10$5I3iyH..gKfO18A.erWUH.ff/s07MojnTZHIJIectygfsKBWJ1SxO",
+      "id": 3
     }
   ],
   "learnhttp": {},

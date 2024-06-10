@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_second_course/screens/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_second_course/screens/commom/exception_dialog.dart';
 import 'package:flutter_webapi_second_course/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -73,30 +76,40 @@ class LoginScreen extends StatelessWidget {
 
     print("$email - $password");
 
-    try {
-      authService.login(email: email, password: password).then((resultLogin) {
+    authService.login(email: email, password: password).then(
+      (resultLogin) {
         if (resultLogin) {
           Navigator.pushReplacementNamed(context, "home");
         }
-      });
-    } on UserNotFoundException {
-      print("USUARIO NAO ENCONTRADO");
-      showConfirmationDialog(
-        context,
-        content:
-            "Deseja criar um novo usuário com o e-mail $email e a senha inserida?",
-        affirmativeOption: "CRIAR",
-      ).then((value) {
-        if (value != null && value) {
-          authService
-              .register(email: email, password: password)
-              .then((resultRegister) {
-            if (resultRegister) {
-              Navigator.pushReplacementNamed(context, "home");
+      },
+    ).catchError(
+      test: (error) => error is HttpException,
+      (error) {
+        var innerError = error as HttpException;
+        showExceptionDialog(context, content: innerError.message);
+      },
+    ).catchError(
+      test: (error) => error is UserNotFoundException,
+      (error) {
+        showConfirmationDialog(
+          context,
+          content:
+              "Deseja criar um novo usuário com o e-mail $email e a senha inserida?",
+          affirmativeOption: "CRIAR",
+        ).then(
+          (value) {
+            if (value != null && value) {
+              authService.register(email: email, password: password).then(
+                (resultRegister) {
+                  if (resultRegister) {
+                    Navigator.pushReplacementNamed(context, "home");
+                  }
+                },
+              );
             }
-          });
-        }
-      });
-    }
+          },
+        );
+      },
+    );
   }
 }
