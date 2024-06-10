@@ -36,12 +36,15 @@ class JournalService {
     return Uri.parse(getBaseURL());
   }
 
-  Future<bool> register(Journal journal) async {
+  Future<bool> register(Journal journal, String token) async {
     String journalJSON = json.encode(journal.toMap());
 
     http.Response response = await client.post(
       getUri(),
-      headers: {'Content-type': 'application/json'},
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
       body: journalJSON,
     );
 
@@ -52,12 +55,15 @@ class JournalService {
     return false;
   }
 
-  Future<bool> edit(String id, Journal journal) async {
+  Future<bool> edit(String id, Journal journal, String token) async {
     String journalJSON = json.encode(journal.toMap());
 
     http.Response response = await client.put(
       Uri.parse("${getUri()}$id"),
-      headers: {'Content-type': 'application/json'},
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
       body: journalJSON,
     );
 
@@ -73,10 +79,11 @@ class JournalService {
     print("Get all uri: ${url}users/${id}/journals");
 
     http.Response response = await client.get(
-        Uri.parse(
-          "${url}users/${id}/journals",
-        ),
-        headers: {"Authorization": "Bearer $token"});
+      Uri.parse(
+        "${url}users/${id}/journals",
+      ),
+      headers: {"Authorization": "Bearer $token"},
+    );
 
     if (response.statusCode != 200) {
       //TODO: Criar uma exceção personalizada

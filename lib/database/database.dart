@@ -24,6 +24,7 @@ Map<String, Journal> generateRandomDatabase({
       content: getRandomPhrase(),
       createdAt: date,
       updatedAt: date,
+      userId: 0,
     );
   }
   return map;

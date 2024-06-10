@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_second_course/enums/enums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../helpers/weekday.dart';
 import '../../models/journal.dart';
 import '../../services/journal_service.dart';
@@ -59,31 +60,37 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
 
   // O Navigator.pop manda de volta para o widget que chamou o AddJournalScreen journal_card.dart que está na home_screen.dart
   registerJournal(BuildContext context) async {
-    JournalService journalService = JournalService();
+    SharedPreferences.getInstance().then((prefs) {
+      String? token = prefs.getString("accessToken");
 
-    this.widget.paramJournal.content = contentController.text;
+      if (token != null) {
+        JournalService journalService = JournalService();
 
-    //TODO: remover depois widget.journal.id);
-    print("id ${widget.paramJournal.id}");
+        this.widget.paramJournal.content = contentController.text;
 
-    if (widget.isEditing) {
-      journalService
-          .edit(widget.paramJournal.id, widget.paramJournal)
-          .then((value) {
-        if (value) {
-          Navigator.pop(context, DisposeStatus.success);
+        //TODO: remover depois widget.journal.id);
+        print("id ${widget.paramJournal.id}");
+
+        if (widget.isEditing) {
+          journalService
+              .edit(widget.paramJournal.id, widget.paramJournal, token)
+              .then((value) {
+            if (value) {
+              Navigator.pop(context, DisposeStatus.success);
+            } else {
+              Navigator.pop(context, DisposeStatus.error);
+            }
+          });
         } else {
-          Navigator.pop(context, DisposeStatus.error);
+          journalService.register(widget.paramJournal, token).then((value) {
+            if (value) {
+              Navigator.pop(context, DisposeStatus.success);
+            } else {
+              Navigator.pop(context, DisposeStatus.error);
+            }
+          });
         }
-      });
-    } else {
-      journalService.register(widget.paramJournal).then((value) {
-        if (value) {
-          Navigator.pop(context, DisposeStatus.success);
-        } else {
-          Navigator.pop(context, DisposeStatus.error);
-        }
-      });
-    }
+      }
+    });
   }
 }

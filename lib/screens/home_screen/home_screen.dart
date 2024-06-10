@@ -24,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _listScrollController = ScrollController();
   final JournalService _journalService = JournalService();
 
+  int? userId;
+
   @override
   void initState() {
     refresh();
@@ -49,16 +51,21 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: ListView(
-        controller: _listScrollController,
-        children: generateListJournalCards(
-          // Cria uma lista de Cards vazios e insere na home_screen com o widget JournalCard
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
-          refreshFunction: refresh,
-        ),
-      ),
+      body: (userId != null)
+          ? ListView(
+              controller: _listScrollController,
+              children: generateListJournalCards(
+                // Cria uma lista de Cards vazios e insere na home_screen com o widget JournalCard
+                windowPage: windowPage,
+                currentDay: currentDay,
+                database: database,
+                refreshFunction: refresh,
+                userId: userId!,
+              ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
@@ -67,11 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences.getInstance().then((prefs) {
       String? token = prefs.getString("accessToken");
       String? email = prefs.getString("email");
-      int? id = prefs.getInt("id");
+      int? userIdPref = prefs.getInt("id");
 
-      if (token != null && email != null && id != null) {
+      if (token != null && email != null && userIdPref != null) {
+        setState(() {
+          userId = userIdPref;
+        });
+
         _journalService
-            .getAll(id: id.toString(), token: token)
+            .getAll(id: userIdPref.toString(), token: token)
             .then((List<Journal> listJournal) {
           setState(() {
             database = {};
