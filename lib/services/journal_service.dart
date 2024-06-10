@@ -7,8 +7,8 @@ import 'http_interceptors.dart';
 
 class JournalService {
   //TODO: Modularizar o endpoint;
-  //static const String url = "http://10.1.9.107:3000/";
-  static const String url = "http://192.168.15.37:3000/";
+  static const String url = "http://10.1.9.107:3000/";
+  //static const String url = "http://192.168.15.37:3000/";
 
   static const String resource = "journals/";
 

@@ -12,8 +12,8 @@
 
 class UriHelper {
   static String getBaseURL() {
-    //return "http://10.1.9.107:3000/";
-    return "http://192.168.15.37:3000/";
+    return "http://10.1.9.107:3000/";
+    //return "http://192.168.15.37:3000/";
   }
 
   static String getResourceURL({String resource = ""}) {

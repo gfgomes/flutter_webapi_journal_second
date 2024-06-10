@@ -4,6 +4,11 @@
       "email": "gabriel.fgomes@gmail.com",
       "password": "$2a$10$O9nqQyOPBGlw4jQBDDAWKur9Nd.Ci7DijsbcmC9Hf6Yh8PawOLa7q",
       "id": 1
+    },
+    {
+      "email": "teste1@teste.com",
+      "password": "$2a$10$4BX91W98SSGBaReS.WJ7jObTbdKD.2HIw066kf2OJMG55vS1nVBB2",
+      "id": 2
     }
   ],
   "learnhttp": {},
