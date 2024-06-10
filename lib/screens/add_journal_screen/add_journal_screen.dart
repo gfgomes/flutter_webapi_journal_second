@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_second_course/enums/enums.dart';
+import 'package:flutter_webapi_second_course/helpers/logout.dart';
+import 'package:flutter_webapi_second_course/screens/commom/exception_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../helpers/weekday.dart';
 import '../../models/journal.dart';
@@ -74,21 +78,41 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
         if (widget.isEditing) {
           journalService
               .edit(widget.paramJournal.id, widget.paramJournal, token)
-              .then((value) {
-            if (value) {
-              Navigator.pop(context, DisposeStatus.success);
-            } else {
-              Navigator.pop(context, DisposeStatus.error);
-            }
-          });
+              .then(
+            (value) {
+              if (value) {
+                Navigator.pop(context, DisposeStatus.success);
+              } else {
+                Navigator.pop(context, DisposeStatus.error);
+              }
+            },
+          ).catchError(
+            test: (error) => error is TokenNotValidException,
+            (error) {
+              logout(context);
+            },
+          ).catchError((error) {
+            var innerError = error as HttpException;
+            showExceptionDialog(context, content: innerError.message);
+          }, test: (error) => error is HttpException);
         } else {
-          journalService.register(widget.paramJournal, token).then((value) {
-            if (value) {
-              Navigator.pop(context, DisposeStatus.success);
-            } else {
-              Navigator.pop(context, DisposeStatus.error);
-            }
-          });
+          journalService.register(widget.paramJournal, token).then(
+            (value) {
+              if (value) {
+                Navigator.pop(context, DisposeStatus.success);
+              } else {
+                Navigator.pop(context, DisposeStatus.error);
+              }
+            },
+          ).catchError(
+            test: (error) => error is TokenNotValidException,
+            (error) {
+              logout(context);
+            },
+          ).catchError((error) {
+            var innerError = error as HttpException;
+            showExceptionDialog(context, content: innerError.message);
+          }, test: (error) => error is HttpException);
         }
       }
     });

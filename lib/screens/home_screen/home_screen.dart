@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_webapi_second_course/helpers/logout.dart';
+import 'package:flutter_webapi_second_course/screens/commom/exception_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/journal.dart';
 import '../../services/journal_service.dart';
@@ -62,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           ListTile(
             onTap: () {
-              logout();
+              logout(context);
             },
             title: const Text("Sair"),
             leading: const Icon(Icons.logout),
@@ -89,42 +93,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // Atualiza a base de dados e a lista na home_screen
   void refresh() async {
-    SharedPreferences.getInstance().then((prefs) {
-      String? token = prefs.getString("accessToken");
-      String? email = prefs.getString("email");
-      int? userIdPref = prefs.getInt("id");
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        String? token = prefs.getString("accessToken");
+        String? email = prefs.getString("email");
+        int? userIdPref = prefs.getInt("id");
 
-      if (token != null && email != null && userIdPref != null) {
-        setState(() {
-          userId = userIdPref;
-        });
-
-        _journalService
-            .getAll(id: userIdPref.toString(), token: token)
-            .then((List<Journal> listJournal) {
+        if (token != null && email != null && userIdPref != null) {
           setState(() {
-            database = {};
-            for (Journal journal in listJournal) {
-              database[journal.id] = journal;
-            }
-
-            if (_listScrollController.hasClients) {
-              final double position =
-                  _listScrollController.position.maxScrollExtent;
-              _listScrollController.jumpTo(position);
-            }
+            userId = userIdPref;
           });
-        });
-      } else {
-        Navigator.pushReplacementNamed(context, "login");
-      }
-    });
-  }
 
-  void logout() {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.clear();
-      Navigator.pushReplacementNamed(context, "login");
-    });
+          _journalService
+              .getAll(id: userIdPref.toString(), token: token)
+              .then((List<Journal> listJournal) {
+            setState(() {
+              database = {};
+              for (Journal journal in listJournal) {
+                database[journal.id] = journal;
+              }
+
+              if (_listScrollController.hasClients) {
+                final double position =
+                    _listScrollController.position.maxScrollExtent;
+                _listScrollController.jumpTo(position);
+              }
+            });
+          });
+        } else {
+          Navigator.pushReplacementNamed(context, "login");
+        }
+      },
+    ).catchError(
+      test: (error) => error is TokenNotValidException,
+      (error) {
+        logout(context);
+      },
+    ).catchError((error) {
+      var innerError = error as HttpException;
+      showExceptionDialog(context, content: innerError.message);
+    }, test: (error) => error is HttpException);
   }
 }

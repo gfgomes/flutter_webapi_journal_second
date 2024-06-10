@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_second_course/enums/enums.dart';
+import 'package:flutter_webapi_second_course/helpers/logout.dart';
 import 'package:flutter_webapi_second_course/screens/commom/alert_dialog.dart';
 import 'package:flutter_webapi_second_course/screens/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_second_course/screens/commom/exception_dialog.dart';
 import 'package:flutter_webapi_second_course/services/journal_service.dart';
 import 'package:uuid/uuid.dart';
 import '../../../helpers/weekday.dart';
@@ -200,16 +204,26 @@ class JournalCard extends StatelessWidget {
       ).then((value) {
         if (value != null) {
           if (value) {
-            service.delete(journal!.id).then((value) {
-              if (value == true) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Registro excluído com sucesso."),
-                  ),
-                );
-                refreshFunction();
-              }
-            });
+            service.delete(journal!.id).then(
+              (value) {
+                if (value == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Registro excluído com sucesso."),
+                    ),
+                  );
+                  refreshFunction();
+                }
+              },
+            ).catchError(
+              test: (error) => error is TokenNotValidException,
+              (error) {
+                logout(context);
+              },
+            ).catchError((error) {
+              var innerError = error as HttpException;
+              showExceptionDialog(context, content: innerError.message);
+            }, test: (error) => error is HttpException);
           }
         }
       });
