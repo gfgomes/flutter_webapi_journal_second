@@ -71,9 +71,8 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
       if (token != null) {
         JournalService journalService = JournalService();
 
-        this.widget.paramJournal.content = contentController.text;
+        widget.paramJournal.content = contentController.text;
 
-        //TODO: remover depois widget.journal.id);
         print("id ${widget.paramJournal.id}");
 
         if (widget.isEditing) {

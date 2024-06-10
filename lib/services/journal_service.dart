@@ -60,6 +60,9 @@ class JournalService {
   }
 
   Future<bool> edit(String id, Journal journal, String token) async {
+    //Seta a nova data de atualização
+    journal.updatedAt = DateTime.now();
+
     String journalJSON = json.encode(journal.toMap());
 
     http.Response response = await client.put(
@@ -111,9 +114,12 @@ class JournalService {
     return result;
   }
 
-  Future<bool> delete(String id) async {
+  Future<bool> delete(String id, String token) async {
     http.Response response = await client.delete(
       Uri.parse("${getUri()}$id"),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
     );
 
     if (response.statusCode != 200) {

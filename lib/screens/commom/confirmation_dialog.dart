@@ -14,7 +14,7 @@ Future<dynamic> showConfirmationDialog(
           onPressed: () {
             Navigator.pop(context, false);
           },
-          child: Text("Cancelar"),
+          child: const Text("Cancelar"),
         ),
         TextButton(
             onPressed: () {

@@ -18,6 +18,7 @@ class JournalCard extends StatelessWidget {
   final DateTime showedDate;
   final Function refreshFunction;
   final int userId;
+  final String userToken;
 
   const JournalCard({
     Key? key,
@@ -25,6 +26,7 @@ class JournalCard extends StatelessWidget {
     required this.showedDate,
     required this.refreshFunction,
     required this.userId,
+    required this.userToken,
   }) : super(key: key);
 
   @override
@@ -177,8 +179,8 @@ class JournalCard extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: isEditng == true
-                ? Text("Registro editado com sucesso.")
-                : Text("Registro criado com sucesso."),
+                ? const Text("Registro editado com sucesso.")
+                : const Text("Registro criado com sucesso."),
           ),
         );
       } else if (value == DisposeStatus.error) {
@@ -205,7 +207,7 @@ class JournalCard extends StatelessWidget {
       ).then((value) {
         if (value != null) {
           if (value) {
-            service.delete(journal!.id).then(
+            service.delete(journal!.id, userToken).then(
               (value) {
                 if (value == true) {
                   ScaffoldMessenger.of(context).showSnackBar(

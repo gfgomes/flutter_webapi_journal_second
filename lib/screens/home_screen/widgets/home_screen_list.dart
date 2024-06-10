@@ -7,6 +7,7 @@ List<JournalCard> generateListJournalCards({
   required Map<String, Journal> database,
   required Function refreshFunction,
   required int userId,
+  required String token,
 }) {
   // Cria uma lista de Cards vazios
   List<JournalCard> list = List.generate(
@@ -15,6 +16,7 @@ List<JournalCard> generateListJournalCards({
       // Cria um card vazio e insere na lista, cada card contém um dia de journal já com o evento de click no card para chamar a tela de edição de dentro do JournalCard
       userId: userId,
       refreshFunction: refreshFunction,
+      userToken: token,
       showedDate: currentDay.subtract(Duration(
         days: (windowPage) - index,
       )),
@@ -32,6 +34,7 @@ List<JournalCard> generateListJournalCards({
             .abs();
 
         list[difference] = JournalCard(
+          userToken: token,
           userId: userId,
           showedDate: list[difference].showedDate,
           journal: value,

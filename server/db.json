@@ -14,36 +14,25 @@
       "email": "teste2@teste.com",
       "password": "$2a$10$5I3iyH..gKfO18A.erWUH.ff/s07MojnTZHIJIectygfsKBWJ1SxO",
       "id": 3
+    },
+    {
+      "email": "teste3@teste.com",
+      "password": "$2a$10$RmrIEsq/0sKTKTw39ZKoMuhfPnR2Ux00XRDemirBK3/7/GXhFGxHq",
+      "id": 4
+    },
+    {
+      "email": "teste6@teste.com",
+      "password": "$2a$10$iREzfw71BbnMgc.b7aIPt.cQ3uMol9tl0nzJG6PsGtgw1ojclYaJG",
+      "id": 5
     }
   ],
   "learnhttp": {},
   "journals": [
     {
-      "id": "bb521080-2500-11ef-91fb-db2a5721e160",
-      "content": "sexta do user id 1 07/06/2024",
-      "created_at": "2024-06-07 15:49:14.220277",
-      "updated_at": "2024-06-07 15:49:14.220277",
-      "userId": 1
-    },
-    {
-      "id": "bb521080-2500-11ef-91fb-db2a5721e162",
-      "content": "Quarta do user id 2 05/06/2024",
-      "created_at": "2024-06-05 15:49:14.220277",
-      "updated_at": "2024-06-05 15:49:14.220277",
-      "userId": 1
-    },
-    {
       "id": "0f395980-2748-11ef-81c4-39754bd2a9ce",
       "content": "Amanha já é segunda :-/",
       "created_at": "2024-06-09 13:39:49.449087",
       "updated_at": "2024-06-09 13:39:49.449087",
-      "userId": 1
-    },
-    {
-      "id": "98b79a40-2749-11ef-81c4-39754bd2a9ce",
-      "content": "teste seg 10/06",
-      "created_at": "2024-06-10 13:50:42.824984",
-      "updated_at": "2024-06-10 13:50:42.824984",
       "userId": 1
     },
     {
@@ -66,6 +55,20 @@
       "created_at": "2024-06-02 15:19:37.396540",
       "updated_at": "2024-06-02 15:19:37.396540",
       "userId": 3
+    },
+    {
+      "id": "66f7fc90-275b-11ef-aac0-f7d70efc2a42",
+      "content": "Finalmente é sexta-feira 07/06 para o teste 3 3333",
+      "created_at": "2024-06-07 15:58:06.566795",
+      "updated_at": "2024-06-10 15:59:05.683728",
+      "userId": 4
+    },
+    {
+      "id": "44f65500-2761-11ef-846c-edfe70f65252",
+      "content": "06/06 quinta",
+      "created_at": "2024-06-06 16:40:02.182719",
+      "updated_at": "2024-06-10 16:40:42.682976",
+      "userId": 5
     }
   ]
 }

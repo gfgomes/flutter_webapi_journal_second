@@ -31,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int? userId;
 
+  String? userToken;
+
   @override
   void initState() {
     refresh();
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: (userId != null)
+      body: (userId != null && userToken != null)
           ? ListView(
               controller: _listScrollController,
               children: generateListJournalCards(
@@ -84,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 database: database,
                 refreshFunction: refresh,
                 userId: userId!,
+                token: userToken!,
               ),
             )
           : const Center(
@@ -96,17 +99,24 @@ class _HomeScreenState extends State<HomeScreen> {
   void refresh() async {
     SharedPreferences.getInstance().then(
       (prefs) {
-        String? token = prefs.getString("accessToken");
-        String? email = prefs.getString("email");
+        String? userPrefToken = prefs.getString("accessToken");
+        String? userPrefEmail = prefs.getString("email");
         int? userIdPref = prefs.getInt("id");
 
-        if (token != null && email != null && userIdPref != null) {
-          setState(() {
-            userId = userIdPref;
-          });
+        if (userPrefToken != null &&
+            userPrefEmail != null &&
+            userIdPref != null) {
+          setState(
+            () {
+              userId = userIdPref;
+              userToken = userPrefToken;
+            },
+          );
+
+          print("getAll: $userPrefToken!");
 
           _journalService
-              .getAll(id: userIdPref.toString(), token: token)
+              .getAll(id: userIdPref.toString(), token: userPrefToken)
               .then((List<Journal> listJournal) {
             setState(() {
               database = {};
