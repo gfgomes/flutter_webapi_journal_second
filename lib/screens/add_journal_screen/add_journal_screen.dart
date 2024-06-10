@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -85,6 +86,12 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
               } else {
                 Navigator.pop(context, DisposeStatus.error);
               }
+            },
+          ).catchError(
+            test: (error) => error is TimeoutException,
+            (error) {
+              showExceptionDialog(context,
+                  content: "O servidor demorou muito, tente mais tarde.");
             },
           ).catchError(
             test: (error) => error is TokenNotValidException,

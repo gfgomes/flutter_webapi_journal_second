@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_webapi_second_course/services/web_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
 
@@ -13,9 +14,7 @@ class JournalService {
 
   static const String resource = "journals/";
 
-  http.Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
+  http.Client client = WebClient().client;
 
   String getURL() {
     return "$url$resource";

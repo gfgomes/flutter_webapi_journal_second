@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_webapi_second_course/helpers/uri_helper.dart';
+import 'package:flutter_webapi_second_course/services/web_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +14,7 @@ class AuthService {
   //static const String url = "http://10.1.9.107:3000/";
   //static const String resource = "journals/";
 
-  http.Client client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
+  http.Client client = WebClient().client;
 
   //email: gabriel.fgomes@gmail.com
   //password: 12345
@@ -46,9 +45,6 @@ class AuthService {
         body: {'email': email, 'password': password});
 
     if (response.statusCode != 201) {
-
-      
-
       throw HttpException(response.body);
     }
 

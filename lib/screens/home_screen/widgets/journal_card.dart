@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -214,6 +215,12 @@ class JournalCard extends StatelessWidget {
                   );
                   refreshFunction();
                 }
+              },
+            ).catchError(
+              test: (error) => error is TimeoutException,
+              (error) {
+                showExceptionDialog(context,
+                    content: "O servidor demorou muito, tente mais tarde.");
               },
             ).catchError(
               test: (error) => error is TokenNotValidException,
